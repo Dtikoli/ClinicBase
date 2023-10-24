@@ -1,19 +1,17 @@
 #!/usr/bin/python3
-""" Holds class Case"""
+""" Holds class Optometrist """
 
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, ForeignKey
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
+from flask_login import UserMixin
 
 
-class Case(BaseModel, Base):
-    """ Representation of cases """
-    __tablename__ = 'cases'
-    patient_id = Column(String(60), ForeignKey('patients.id'), nullable=False)
-    optometrist_id = Column(String(60), ForeignKey('optometrists.id'), nullable=False)
-    diagnoses = relationship("Diagnosis", backref="case", cascade="delete")
-    examinations = relationship("Examination", backref="case",
-                                cascade="delete")
-    histories = relationship("History", backref="case", cascade="delete")
-    tests = relationship("Test", backref="case", cascade="delete")
-    lenses = relationship("Lens", backref="case", cascade="delete")
-    drugs = relationship("Drug", backref="case", cascade="delete")
+class Optometrist(BaseModel, Base, UserMixin):
+    """ Representation of optometrists """
+    __tablename__ = 'optometrists'
+    name = Column(String(128), nullable=False)
+    email = Column(String(128), nullable=False)
+    password = Column(String(60), nullable=False)
+    license = Column(String(128), nullable=False)
+    cases = relationship("Case", backref="optometrist", cascade="delete")

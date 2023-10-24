@@ -9,7 +9,8 @@ class Case(BaseModel, Base):
     """ Representation of cases """
     __tablename__ = 'cases'
     patient_id = Column(String(60), ForeignKey('patients.id'), nullable=False)
-    optometrist_id = Column(String(60), ForeignKey('optometrists.id'), nullable=False)
+    optometrist_id = Column(String(60), ForeignKey('optometrists.id'),
+                            nullable=False)
     diagnoses = relationship("Diagnosis", backref="case", cascade="delete")
     examinations = relationship("Examination", backref="case",
                                 cascade="delete")
