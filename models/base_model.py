@@ -3,7 +3,6 @@
 
 from datetime import datetime
 from models import storage
-from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
@@ -17,8 +16,8 @@ Base = declarative_base()
 class BaseModel:
     """The BaseModel class from which future classes will be derived"""
     id = Column(String(60), primary_key=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     def __init__(self, *args, **kwargs):
         """Initialization of the base model"""
@@ -59,6 +58,8 @@ class BaseModel:
             new_dict["created_at"] = new_dict["created_at"].strftime(time)
         if "updated_at" in new_dict:
             new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
+        if "dob" in new_dict:
+            new_dict["dob"] = new_dict["dob"].strftime('%Y-%m-%d')
         new_dict["__class__"] = self.__class__.__name__
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
