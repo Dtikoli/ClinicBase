@@ -7,6 +7,7 @@ from dashboards.auth.utils import custom_authentication
 from models.optometrist import Optometrist
 from models.receptionist import Receptionist
 
+
 @bp_auth.route('/login', methods=['GET', 'POST'])
 def login():
     if 'custom_user' in session:
