@@ -5,7 +5,9 @@ from clinic_app import bcrypt, login_manager
 from models import storage
 from flask import current_app, session
 from datetime import datetime, timedelta
-# from models import User
+from models.receptionist import Receptionist
+from models.optometrist import Optometrist
+from models.custom_user import User
 
 dbsession = storage._DBStorage__session
 admin_email = current_app.config.get('ADMIN_EMAIL')
@@ -29,7 +31,7 @@ def custom_authentication(user_email, user_pass):
         }
         return custom_admin
 
-    user = dbsesion.query(User).filter_by(email=user_email).first()
+    user = dbsesion.query(Optometrist, Receptionist).filter_by(email=user_email).first()
     if user and bcrypt.check_password_hash(user.password, user_pass):
         return user
     return None
@@ -54,4 +56,4 @@ def before_request():
 
 @login_manager.user_loader
 def load_user(user_id):
-    return dbsession.query(User).get(user_id)
+    return dbsession.query(Optometrist, Receptionist).get(user_id)
