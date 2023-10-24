@@ -33,16 +33,15 @@ class DBStorage:
 
     def __init__(self):
         """Instantiate a DBStorage object"""
-        if getenv('HBNB_ENV') == 'test':
+        if getenv('CBASE_ENV') == 'test':
             db_uri = getenv('TEST_DATABASE_URI')
-            Base.metadata.drop_all(self.__engine)
 
         else:
             db_uri = getenv('DEV_DATABASE_URI')
 
         self.__engine = create_engine(db_uri, pool_pre_ping=True)
 
-        if getenv('HBNB_ENV') == 'test':
+        if getenv('CBASE_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):

@@ -14,12 +14,12 @@ class TestDBStorage(unittest.TestCase):
     def setUpClass(cls):
         # Set the environment to "testing"
         import os
-        os.environ['HBNB_ENV'] = 'test'
+        os.environ['CBASE_ENV'] = 'test'
 
     @classmethod
     def tearDownClass(cls):
         # Clean up after the test class
-        del os.environ['HBNB_ENV']
+        del os.environ['CBASE_ENV']
 
     def test_all_method(self):
         # Test the 'all' method
