@@ -3,7 +3,7 @@
 
 from clinic_app import bcrypt, login_manager
 from models import storage
-from flask import current_app, session
+from flask import current_app, session, redirect, url_for
 from datetime import datetime, timedelta
 from models.receptionist import Receptionist
 from models.optometrist import Optometrist
@@ -24,14 +24,14 @@ def custom_authentication(user_email, user_pass):
         )
         session.permanent = True
         session['permanent_session_lifetime'] = timedelta(minutes=30)
-        session['custom_user'] = custom_admin
         session['custom_user'] = {
                                   'user_data': custom_admin,
                                   'last_activity': datetime.now()
         }
         return custom_admin
 
-    user = dbsesion.query(Optometrist, Receptionist).filter_by(email=user_email).first()
+    user = dbsession.query(Optometrist, Receptionist)\
+        .filter_by(email=user_email).first()
     if user and bcrypt.check_password_hash(user.password, user_pass):
         return user
     return None
@@ -46,12 +46,14 @@ def check_inactivity(session_key, max_inactive_minutes=10):
 
         if inactive_minutes > max_inactive_minutes:
             session.pop(session_key)
-            return redirect(url_for('login'))
+            return True
+    return False
 
 
 @bp_auth.before_request
 def before_request():
-    check_inactivity('custom_user')
+    if check_inactivity('custom_user'):
+        return redirect(url_for('login'))
 
 
 @login_manager.user_loader

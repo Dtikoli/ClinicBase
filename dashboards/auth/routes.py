@@ -10,15 +10,15 @@ from models.receptionist import Receptionist
 @bp_auth.route('/login', methods=['GET', 'POST'])
 def login():
     if 'custom_user' in session:
-        return redirect(url_for('custom_dashboard'))
+        return redirect(url_for('administrator'))
     if current_user.is_authenticated:
-        if isinstance(current_user, User):
-            return redirect(url_for('main.home'))
-        if isinstance(current_user, User):
-            return redirect(url_for('main.home'))
+        if isinstance(current_user, Receptionist):
+            return redirect(url_for('receptionist'))
+        if isinstance(current_user, Optometrist):
+            return redirect(url_for('optometrist'))
 
     if request.method == 'POST':
-        username = request.form.get('email')
+        email = request.form.get('email')
         password = request.form.get('password')
 
         user = custom_authentication(email, password)
