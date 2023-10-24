@@ -2,20 +2,26 @@
 """ Contains the class DBStorage """
 
 from models import storage
-from models.amenity import Amenity
 from models.base_model import Base
-from models.city import City
-from models.place import Place
-from models.review import Review
-from models.state import State
-from models.user import User
+from models.case import Case
+from models.diagnosis import Diagnosis
+from models.drug import Drug
+from models.examination import Examination
+from models.history import History
+from models.lens import Lens
+from models.optometrist import Optometrist
+from models.patient import Patient
+from models.receptionist import Receptionist
+from models.test import Test
 from os import getenv
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-classes = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+classes = {"Case": Case, "Diagnosis": Diagnosis, "Drug": Drug,
+           "Test": Test, "Examination": Examination, "History": History,
+           "Lens": Lens, "Optometrist": Optometrist, "Patient": Patient,
+           "Receptionist": Receptionist}
 
 load_dotenv()
 
@@ -75,31 +81,22 @@ class DBStorage:
         self.__session.close()
 
     def get(self, cls, id):
-        """
-        Returns the object based on the class name and its ID, or
-        None if not found
-        """
+        """ Returns the object based on the class name and its ID """
         if cls not in classes.values():
             return None
-
         all_cls = storage.all(cls)
         for value in all_cls.values():
             if (value.id == id):
                 return value
-
         return None
 
     def count(self, cls=None):
-        """
-        count the number of objects in storage
-        """
+        """ count the number of objects in storage """
         all_class = classes.values()
-
         if not cls:
             count = 0
             for clas in all_class:
                 count += len(storage.all(clas).values())
         else:
             count = len(storage.all(cls).values())
-
         return count
