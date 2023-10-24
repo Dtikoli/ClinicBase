@@ -4,6 +4,7 @@
 from clinic_app import bcrypt, login_manager
 from models import storage
 from flask import current_app, session
+from datetime import datetime, timedelta
 # from models import User
 
 dbsession = storage._DBStorage__session
@@ -19,7 +20,13 @@ def custom_authentication(user_email, user_pass):
             email=admin_email,
             password=admin_password
         )
+        session.permanent = True
+        session['permanent_session_lifetime'] = timedelta(minutes=30)
         session['custom_user'] = custom_admin
+        session['custom_user'] = {
+                                  'user_data': custom_admin,
+                                  'last_activity': datetime.now()
+        }
         return custom_admin
 
     user = dbsesion.query(User).filter_by(email=user_email).first()
@@ -28,6 +35,23 @@ def custom_authentication(user_email, user_pass):
     return None
 
 
+def check_inactivity(session_key, max_inactive_minutes=10):
+    if session_key in session:
+        user_data = session[session_key]['user_data']
+        last_activity = session[session_key]['last_activity']
+        current_time = datetime.now()
+        inactive_minutes = (current_time - last_activity).total_seconds() / 60
+
+        if inactive_minutes > max_inactive_minutes:
+            session.pop(session_key)
+            return redirect(url_for('login'))
+
+
+@bp_auth.before_request
+def before_request():
+    check_inactivity('custom_user')
+
+
 @login_manager.user_loader
 def load_user(user_id):
-    return storage.get(User, user_id)
+    return dbsession.query(User).get(user_id)

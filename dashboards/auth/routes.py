@@ -28,7 +28,10 @@ def login():
 
 @bp_auth.route('/logout')
 def logout():
-    # Perform logout actions
-    logout_user()  # Assuming you have Flask-Login set up
-    flash('You have been logged out.', 'info')
+    if 'custom_user' in session:
+        session.pop('custom_user')
+    else:
+        logout_user()
+    flash('You have been logged out.', 'success')
     return redirect(url_for('home'))
+
