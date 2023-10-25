@@ -37,6 +37,7 @@ header {
 .navigations>li {
     margin: 0 1rem;
     overflow: hidden;
+    font-size: 12px;
 }
 
 #navigations-toggle {
@@ -59,7 +60,7 @@ header {
     transform: scale(1.2);
 }
 
-/* creating the hamburger menu button */
+/* creating the navigations button */
 .navigations-button,
 .navigations-button::before,
 .navigations-button::after {
@@ -131,6 +132,7 @@ header {
     .navigations li:hover {
         transform: scale(1);
     }
+
     #navigations-toggle~.navigations li {
         height: 0;
         margin: 0;
