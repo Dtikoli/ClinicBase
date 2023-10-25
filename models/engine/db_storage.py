@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Contains the class DBStorage """
 
-from models import storage
 from models.base_model import Base
 from models.case import Case
 from models.diagnosis import Diagnosis
@@ -17,6 +16,7 @@ from os import getenv
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+import models
 
 classes = {"Case": Case, "Diagnosis": Diagnosis, "Drug": Drug,
            "Test": Test, "Examination": Examination, "History": History,
@@ -77,13 +77,13 @@ class DBStorage:
 
     def close(self):
         """call remove() method on the private session attribute"""
-        self.__session.close()
+        self.__session.remove()
 
     def get(self, cls, id):
         """ Returns the object based on the class name and its ID """
         if cls not in classes.values():
             return None
-        all_cls = storage.all(cls)
+        all_cls = models.storage.all(cls)
         for value in all_cls.values():
             if (value.id == id):
                 return value
@@ -95,7 +95,7 @@ class DBStorage:
         if not cls:
             count = 0
             for clas in all_class:
-                count += len(storage.all(clas).values())
+                count += len(models.storage.all(clas).values())
         else:
-            count = len(storage.all(cls).values())
+            count = len(models.storage.all(cls).values())
         return count

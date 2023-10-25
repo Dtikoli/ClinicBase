@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 """ Contains class BaseModel """
 
-from datetime import datetime
-from models import storage
-import sqlalchemy
 from sqlalchemy import Column, String, DateTime
+from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
+import models
 import uuid
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
@@ -48,26 +47,24 @@ class BaseModel:
     def save(self):
         """updates the attribute 'updated_at' with the current datetime"""
         self.updated_at = datetime.utcnow()
-        storage.new(self)
-        storage.save()
+        models.storage.new(self)
+        models.storage.save()
 
-    def to_dict(self, save_fs=None):
-        """returns a dictionary containing all keys/values of the instance"""
-        new_dict = self.__dict__.copy()
-        if "created_at" in new_dict:
-            new_dict["created_at"] = new_dict["created_at"].strftime(time)
-        if "updated_at" in new_dict:
-            new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
-        if "dob" in new_dict:
-            new_dict["dob"] = new_dict["dob"].strftime('%Y-%m-%d')
-        new_dict["__class__"] = self.__class__.__name__
-        if "_sa_instance_state" in new_dict:
-            del new_dict["_sa_instance_state"]
-        if save_fs is None:
-            if "password" in new_dict:
-                del new_dict["password"]
-        return new_dict
+    def to_dict(self):
+        """creates dictionary of the class  and returns
+        Return:
+            returns a dictionary of all the key values in __dict__
+        """
+        my_dict = dict(self.__dict__)
+        my_dict["__class__"] = str(type(self).__name__)
+        my_dict["created_at"] = self.created_at.isoformat()
+        my_dict["updated_at"] = self.updated_at.isoformat()
+        my_dict["dob"] = self.dob.isoformat()
+
+        if "_sa_instance_state" in my_dict:
+            my_dict.pop("_sa_instance_state", None)
+        return my_dict
 
     def delete(self):
         """delete the current instance from the storage"""
-        storage.delete(self)
+        models.storage.delete(self)

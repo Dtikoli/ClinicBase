@@ -2,7 +2,7 @@
 """ Holds class Examination """
 
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Text
+from sqlalchemy import Column, String, Text, ForeignKey
 
 
 class Examination(BaseModel, Base):

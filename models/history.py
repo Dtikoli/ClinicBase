@@ -2,7 +2,7 @@
 """ Holds class History """
 
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, ForeignKey
 
 
 class History(BaseModel, Base):
