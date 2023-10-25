@@ -1,0 +1,18 @@
+footer {
+    background-color: white; 
+    height: 30px; 
+    border-top: 1px solid #CCCCCC;  
+    display:flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    bottom: 0;
+    padding: 1em;
+    margin: 0;
+}
+
+@media (max-width: 991px) {
+    footer {
+        padding: 2rem;
+    }
+}
