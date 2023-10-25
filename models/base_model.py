@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Contains class BaseModel """
 
-from sqlalchemy import Column, String, DateTime
+from sqlalchemy import Column, String, DateTime, Date
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 import models
@@ -57,9 +57,8 @@ class BaseModel:
         """
         my_dict = dict(self.__dict__)
         my_dict["__class__"] = str(type(self).__name__)
-        my_dict["created_at"] = self.created_at.isoformat()
-        my_dict["updated_at"] = self.updated_at.isoformat()
-        my_dict["dob"] = self.dob.isoformat()
+        my_dict["created_at"] = my_dict["created_at"].strftime(time)
+        my_dict["updated_at"] = my_dict["updated_at"].strftime(time)
 
         if "_sa_instance_state" in my_dict:
             my_dict.pop("_sa_instance_state", None)
