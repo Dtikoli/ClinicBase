@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CDN goes here-->
+    <!-- CSS goes here -->
+    <link rel="stylesheet" href="/dashboards/static/styles/common.css">
+    <link rel="stylesheet" href="/dashboards/static/styles/common_header.css">
+    <link rel="stylesheet" href="/dashboards/static/styles/common_footer.css">
+    <link rel="stylesheet" href="/dashboards/static/styles/login.css">
+    <title>index</title>
+    <!-- index is the base template -->
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <!-- header goes here -->
+            <section class="nav">
+                <div class="logo">
+                    <a href="/dashboards/templates/index.html"><i class="logo"></i>CLINICBASE</a>
+                </div>
+                <!-- checkbox to control the icon's state -->
+                <input type="checkbox" id="navigations-toggle">
+                <label for="navigations-toggle" class="navigations-button-container">
+                    <div class="navigations-button"></div>
+                </label>
+
+                <!-- other navigations-->
+                <ul class="navigations">
+                    <li><a href="/dashboards/templates/index.html">Home</a></li>
+                    <li><a href="/dashboards/templates/login.html">Login</a></li>
+                    <li><a href="#contact">contact</a></li>
+                    <li><a href="#about">About Us</a></li>
+                </ul>
+            </section>
+        </header>
+
+        <main>
+            <!-- main content goes here  -->
+            <div class="loginbox">
+                <h1>Login Here</h1>
+                <form action="">
+                  <p>Username</p>
+                  <input type="text" name="" placeholder="Enter Username" required>
+                  <p>Password</p>
+                  <input type="password" name="" placeholder="Enter Password" required>
+                  <input type="submit" name="" value="Login">
+                  <a href="#">Lost your password?</a><br>
+                  <a href="#contact">Don't have an account?</a>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <!-- footer goes here-->
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h3>clinicbase</h3>
+            </div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="#privacy_policy">Privacy Policy</a></li>
+                    <li><a href="#terms_of_service">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <p>Contact us at: <a href="#contact">contact</a></p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
