@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Flask Application API """
+""" Blueprint for API """
 
 from flask import Blueprint, make_response, jsonify
 
@@ -11,4 +11,5 @@ def not_found(error):
     """ 404 Error """
     return make_response(jsonify({'error': "Not found"}), 404)
 
-from api import route1 *
+
+from api import routes

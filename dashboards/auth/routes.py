@@ -2,7 +2,7 @@
 """ Handle the user session routes """
 
 from flask import request, redirect, url_for, flash, render_template, session
-from flask_login import login_user, logout_user, current_app
+from flask_login import login_user, logout_user, current_user
 from dashboards.auth.utils import custom_authentication
 from models.optometrist import Optometrist
 from models.receptionist import Receptionist
