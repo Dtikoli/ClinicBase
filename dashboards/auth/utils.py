@@ -50,12 +50,6 @@ def check_inactivity(session_key, max_inactive_minutes=10):
     return False
 
 
-@bp_auth.before_request
-def before_request():
-    if check_inactivity('custom_user'):
-        return redirect(url_for('login'))
-
-
 @login_manager.user_loader
 def load_user(user_id):
     return dbsession.query(Optometrist, Receptionist).get(user_id)

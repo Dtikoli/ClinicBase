@@ -25,8 +25,8 @@ classes = {"Case": Case, "Diagnosis": Diagnosis, "Drug": Drug,
 
 
 class HBNBCommand(cmd.Cmd):
-    """ HBNH console """
-    prompt = '(hbnb) '
+    """ CBASE console """
+    prompt = '(cbase) '
 
     def do_EOF(self, arg):
         """Exits console"""
@@ -53,7 +53,7 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     try:
                         value = int(value)
-                    except:
+                    except Exception:
                         try:
                             value = float(value)
                         except:
@@ -152,6 +152,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** instance id missing **")
         else:
             print("** class doesn't exist **")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
