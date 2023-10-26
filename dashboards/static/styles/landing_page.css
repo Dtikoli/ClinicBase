@@ -1,0 +1,61 @@
+.background-image {
+    width: 500px;
+    height: 600px;
+    top: 60%;
+    left: 20%;
+    right: 25%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    box-sizing: content-box;
+    border-radius: 50px;
+}
+
+.hero-cta {
+    position: relative;
+    bottom: 75%;
+    left: 20%;
+    background-color: lightgray;
+    color: black;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 28px;
+}
+
+.cta {
+    display: inline-block;
+    padding: 0.8rem 3rem;
+    border: 0.2rem solid;
+    color: #fff;
+    background: darkslategrey;
+    border-radius: 20px;
+    font-size: 18px;    
+}
+
+.cta:hover {
+    cursor: pointer;
+    color: #fff;
+    background: grey;
+}
+
+#main_header {
+    color: darkslategray;
+    font-size: 40px;
+}
+
+.intro {
+    color: darkslategray;
+    font-size: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.story {
+    color: darkslateblue;
+    font-size: 25px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.call-to-action {
+    color: darkslategray;
+    font-size: 18px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
