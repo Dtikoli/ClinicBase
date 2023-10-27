@@ -4,56 +4,60 @@
 from api import bp_api
 from flask import abort, jsonify, request
 from flask_cors import cross_origin
-from datetime import date
-from models.case import Case
-from models.diagnosis import Diagnosis
-from models.drug import Drug
-from models.examination import Examination
-from models.history import History
-from models.lens import Lens
 from models.optometrist import Optometrist
-from models.patient import Patient
 from models.receptionist import Receptionist
-from models.test import Test
 from models import storage
 
 dbsession = storage._DBStorage__session
 
 
-@bp_api.route('/status', methods=['GET'], strict_slashes=False)
+@bp_api.route('/get_employee/<employee_id>', strict_slashes=False)
 @cross_origin(origins=["127.0.0.1"])
-def status():
-    """ Status of API """
-    return jsonify({"status": "OK"})
+def get_employee(employee_id):
+    """ Returns employee's updated information """
+    employee = dbsession.query(Receptionist).get(employee_id)
+    if not employee:
+        employee = dbsession.query(Optometrist).get(employee_id)    
+    if not employee:
+        abort(404)
+    return jsonify(employee.to_dict())
 
 
-@bp_api.route('/patient_count', methods=['POST'], strict_slashes=False)
+@bp_api.route('/employee', methods=['POST'], strict_slashes=False)
 @cross_origin(origins=["127.0.0.1"])
-def patient_count():
-    """ Returns the number of patients within a specified time """
+def post_employee():
+    """ Creates a new employee """
+    if not request.is_json:
+        abort(400, description="Not a JSON")
+    data = request.get_json()
+    if 'name' not in data:
+        abort(400, description="Missing name")
+    if 'email' not in data:
+        abort(400, description="Missing email")
+    if 'password' not in data:
+        abort(400, description="Missing password")
+    if 'license' in data:
+        employee = Optometrist(**data)
+    else:
+        employee = Receptionist(**data)
+    storage.add(employee)
+    storage.save()
+    return jsonify(employee.to_dict()), 201
+
+
+@bp_api.route('/patients/<patient_id>', methods=['PUT'], strict_slashes=False)
+@cross_origin(origins=["127.0.0.1"])
+def put_patient(patient_id):
+    """ Updates a patient information """
+    patient = storage.get(Patient, patient_id)
+    if not patient:
+        abort(404)
     if not request.get_json():
         abort(400, description="Not a JSON")
 
-    data = request.get_json()
-    start_date = data.get('start_date', date.min)
-    end_date = data.get('end_date', date.today())
-    patient_count = session.query(Patient)\
-        .filter(Patient.update_at.between(start_date, end_date)).count()
-
-    return jsonify({'patient_count': patient_count})
-
-
-@bp_api.route('/case_count', methods=['POST'], strict_slashes=False)
-@cross_origin(origins=["127.0.0.1"])
-def case_count():
-    """ Returns the number of cases within a specified time """
-    if not request.get_json():
-        abort(400, description="Not a JSON")
-
-    data = request.get_json()
-    start_date = data.get('start_date', date.min)
-    end_date = data.get('end_date', date.today())
-    case_count = session.query(Case)\
-        .filter(Case.update_at.between(start_date, end_date)).count()
-
-    return jsonify({'case_count': case_count})
+    ignore = ['id', 'firstname', 'surname', 'dob', 'created_at', 'updated']
+    for key, value in request.get_json().items():
+        if key not in ignore:
+            setattr(patient, key, value)
+    storage.save()
+    return jsonify(patient.to_dict()), 200

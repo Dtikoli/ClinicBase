@@ -32,8 +32,9 @@ def custom_authentication(app, user_email, user_pass):
         }
         return custom_admin
 
-    user = dbsession.query(Optometrist, Receptionist)\
-        .filter_by(email=user_email).first()
+    user = dbsession.query(Receptionist).filter_by(email=user_email).first()
+    if not user:
+        user = dbsession.query(Optometrist).filter_by(email=user_email).first()
     if user and bcrypt.check_password_hash(user.password, user_pass):
         return user
     return None
@@ -54,4 +55,7 @@ def check_inactivity(session_key, max_inactive_min=10):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return dbsession.query(Optometrist, Receptionist).get(user_id)
+    user = dbsession.query(Receptionist).get(user_id)
+    if not user:
+        user = dbsession.query(Optometrist).get(user_id)
+    return user

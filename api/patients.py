@@ -4,11 +4,9 @@
 from api import bp_api
 from flask import abort, jsonify, request
 from flask_cors import cross_origin
-from datetime import date
+from datetime import datetime
 from models.patient import Patient
 from models import storage
-
-dbsession = storage._DBStorage__session
 
 
 @bp_api.route('/get_patient/<patient_id>', strict_slashes=False)
@@ -27,9 +25,6 @@ def get_patient(patient_id):
 @cross_origin(origins=["127.0.0.1"])
 def post_patient():
     """ Creates a new patient """
-    patient = storage.get(Patient, patient_id)
-    if not patient:
-        abort(404)
     if not request.get_json():
         abort(400, description="Not a JSON")
     if 'firstname' not in request.get_json():
@@ -37,7 +32,7 @@ def post_patient():
     if 'surname' not in request.get_json():
         abort(400, description="Missing surname")
     if 'dob' not in request.get_json():
-        abort(400, description="Missing missing date of birth")
+        abort(400, description="Missing date of birth")
     if 'tel' not in request.get_json():
         abort(400, description="Missing telephone number")
     data = request.get_json()
@@ -62,3 +57,18 @@ def put_patient(patient_id):
             setattr(patient, key, value)
     storage.save()
     return jsonify(patient.to_dict()), 200
+
+
+@bp_api.route('/patients/<patient_id>', methods=['DELETE'],
+              strict_slashes=False)
+@cross_origin(origins=["127.0.0.1"])
+def delete_method(state_id):
+    """ Deletes an a patient who is without a case  """
+    patient = storage.get(Patient, patient_id)
+    if not patient:
+        abort(404)
+    if hasattr(patient, 'cases'):
+        abort(400, description="Patient has a case")
+    patient.delete()
+    storage.save()
+    return jsonify({}), 200
