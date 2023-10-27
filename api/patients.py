@@ -44,7 +44,7 @@ def post_patient():
 @bp_api.route('/patients/<patient_id>', methods=['PUT'], strict_slashes=False)
 @cross_origin(origins=["127.0.0.1"])
 def put_patient(patient_id):
-    """ Updates a patient information """
+    """ Updates a patient's information """
     patient = storage.get(Patient, patient_id)
     if not patient:
         abort(404)
@@ -62,8 +62,8 @@ def put_patient(patient_id):
 @bp_api.route('/patients/<patient_id>', methods=['DELETE'],
               strict_slashes=False)
 @cross_origin(origins=["127.0.0.1"])
-def delete_method(state_id):
-    """ Deletes an a patient who is without a case  """
+def delete_patient(patient_id):
+    """ Deletes a patient who is without a case  """
     patient = storage.get(Patient, patient_id)
     if not patient:
         abort(404)

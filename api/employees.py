@@ -8,16 +8,16 @@ from models.optometrist import Optometrist
 from models.receptionist import Receptionist
 from models import storage
 
-dbsession = storage._DBStorage__session
+session = storage._DBStorage__session
 
 
 @bp_api.route('/get_employee/<employee_id>', strict_slashes=False)
 @cross_origin(origins=["127.0.0.1"])
 def get_employee(employee_id):
     """ Returns employee's updated information """
-    employee = dbsession.query(Receptionist).get(employee_id)
+    employee = session.query(Receptionist).get(employee_id)
     if not employee:
-        employee = dbsession.query(Optometrist).get(employee_id)    
+        employee = session.query(Optometrist).get(employee_id)
     if not employee:
         abort(404)
     return jsonify(employee.to_dict())
@@ -40,24 +40,43 @@ def post_employee():
         employee = Optometrist(**data)
     else:
         employee = Receptionist(**data)
-    storage.add(employee)
-    storage.save()
+    employee.save()
     return jsonify(employee.to_dict()), 201
 
 
-@bp_api.route('/patients/<patient_id>', methods=['PUT'], strict_slashes=False)
+@bp_api.route('/employees/<employee_id>', methods=['PUT'],
+              strict_slashes=False)
 @cross_origin(origins=["127.0.0.1"])
-def put_patient(patient_id):
-    """ Updates a patient information """
-    patient = storage.get(Patient, patient_id)
-    if not patient:
+def put_employee(employee_id):
+    """ Updates an employee's  information """
+    employee = session.query(Receptionist).get(employee_id)
+    if not employee:
+        employee = session.query(Optometrist).get(employee_id)
+    if not employee:
         abort(404)
     if not request.get_json():
         abort(400, description="Not a JSON")
 
-    ignore = ['id', 'firstname', 'surname', 'dob', 'created_at', 'updated']
+    ignore = ['id', 'name', 'created_at', 'updated']
     for key, value in request.get_json().items():
         if key not in ignore:
-            setattr(patient, key, value)
+            setattr(employee, key, value)
     storage.save()
-    return jsonify(patient.to_dict()), 200
+    return jsonify(employee.to_dict()), 200
+
+
+@bp_api.route('/employees/<employee_id>', methods=['DELETE'],
+              strict_slashes=False)
+@cross_origin(origins=["127.0.0.1"])
+def delete_employee(employee_id):
+    """ Deletes a recept or an optom who is without a case  """
+    employee = session.query(Receptionist).get(employee_id)
+    if not employee:
+        employee = session.query(Optometrist).get(employee_id)
+    if not employee:
+        abort(404)
+    if isinstance(employee, Optometrist) and if hasattr(employee, 'cases'):
+        abort(400, description="Optom has a case")
+    employee.delete()
+    storage.save()
+    return jsonify({}), 200
