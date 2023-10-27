@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Handle the user session routes """
 
+from dashboards.auth import bp_auth
 from flask import request, redirect, url_for, flash, render_template, session
 from flask_login import login_user, logout_user, current_user
 from dashboards.auth.utils import custom_authentication, check_inactivity
@@ -22,7 +23,7 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        user = custom_authentication(email, password)
+        user = custom_authentication(app, email, password)
 
         if isinstance(user, Receptionist):
             login_user(user, remember=True)
@@ -44,15 +45,17 @@ def login():
 
 @bp_auth.route('/logout')
 def logout():
-    if 'custom_user' in session:
-        session.pop('custom_user')
-    else:
-        logout_user()
-    flash('You have been logged out.', 'success')
-    return redirect(url_for('landing_page.home'))
+    with current_app.app_context():
+        if 'custom_user' in session:
+            session.pop('custom_user')
+        else:
+            logout_user()
+        flash('You have been logged out.', 'success')
+        return redirect(url_for('landing_page.home'))
 
 
 @bp_auth.before_request
 def before_request():
-    if check_inactivity('custom_user'):
-        return redirect(url_for('auth.login'))
+    with current_app.app_context():
+        if check_inactivity('custom_user'):
+            return redirect(url_for('auth.login'))

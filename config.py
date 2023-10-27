@@ -13,4 +13,3 @@ class Config:
     ADMIN_EMAIL = getenv('ADMIN_EMAIL')
     ADMIN_ID = getenv('ADMIN_ID')
     ADMIN_PASSWORD = getenv('ADMIN_PASSWORD')
-

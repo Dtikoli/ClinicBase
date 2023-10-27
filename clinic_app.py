@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 """ Flask Application """
 
-from dashboards import create_app
 from models import storage
+from dashboards import create_app
+
 
 app = create_app()
+app.app_context().push()
 
 
 @app.teardown_appcontext

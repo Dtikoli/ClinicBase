@@ -5,4 +5,4 @@ from flask import Blueprint
 
 bp_optom = Blueprint('optom', __name__)
 
-from dashbords.optometrist import routes
+from dashboards.optometrist import routes
