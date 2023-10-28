@@ -34,7 +34,7 @@ def patient_count():
     end_date = datetime.strptime(end_date, '%Y-%m-%d')
 
     patient_count = session.query(Patient)\
-        .filter(Patient.update_at.between(start_date, end_date)).count()
+        .filter(Patient.updated_at.between(start_date, end_date)).count()
 
     return jsonify({'patient_count': patient_count})
 
