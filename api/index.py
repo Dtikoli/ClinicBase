@@ -4,7 +4,7 @@
 from api import bp_api
 from flask import abort, jsonify, request
 from flask_cors import cross_origin
-from datetime import date
+from datetime import date, datetime
 from models.case import Case
 from models.patient import Patient
 from models import storage
@@ -27,8 +27,11 @@ def patient_count():
         abort(400, description="Not a JSON")
 
     data = request.get_json()
-    start_date = data.get('start_date', date.min)
-    end_date = data.get('end_date', date.today())
+    start_date = data.get('start_date', date.min.isoformat())
+    end_date = data.get('end_date', date.today().isoformat())
+    start_date = datetime.strptime(start_date, '%Y-%m-%d')
+    end_date = datetime.strptime(end_date, '%Y-%m-%d')
+
     patient_count = session.query(Patient)\
         .filter(Patient.update_at.between(start_date, end_date)).count()
 
@@ -43,8 +46,11 @@ def case_count():
         abort(400, description="Not a JSON")
 
     data = request.get_json()
-    start_date = data.get('start_date', date.min)
-    end_date = data.get('end_date', date.today())
+    start_date = data.get('start_date', date.min.isoformat())
+    end_date = data.get('end_date', date.today().isoformat())
+    start_date = datetime.strptime(start_date, '%Y-%m-%d')
+    end_date = datetime.strptime(end_date, '%Y-%m-%d')
+
     case_count = session.query(Case)\
         .filter(Case.update_at.between(start_date, end_date)).count()
 

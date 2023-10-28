@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ API eployees speficic routes """
 
+from dashboards import bcrypt
 from api import bp_api
 from flask import abort, jsonify, request
 from flask_cors import cross_origin
@@ -8,16 +9,14 @@ from models.optometrist import Optometrist
 from models.receptionist import Receptionist
 from models import storage
 
-session = storage._DBStorage__session
-
 
 @bp_api.route('/get_employee/<employee_id>', strict_slashes=False)
 @cross_origin(origins=["127.0.0.1"])
 def get_employee(employee_id):
     """ Returns employee's updated information """
-    employee = session.query(Receptionist).get(employee_id)
+    employee = storage.get(Receptionist, employee_id)
     if not employee:
-        employee = session.query(Optometrist).get(employee_id)
+        employee = storage.get(Optometrist, employee_id)
     if not employee:
         abort(404)
     return jsonify(employee.to_dict())
@@ -36,6 +35,11 @@ def post_employee():
         abort(400, description="Missing email")
     if 'password' not in data:
         abort(400, description="Missing password")
+
+    password = data['password']
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+    data['password'] = hashed_password
+
     if 'license' in data:
         employee = Optometrist(**data)
     else:
@@ -49,15 +53,20 @@ def post_employee():
 @cross_origin(origins=["127.0.0.1"])
 def put_employee(employee_id):
     """ Updates an employee's  information """
-    employee = session.query(Receptionist).get(employee_id)
+    employee = storage.get(Receptionist, employee_id)
     if not employee:
-        employee = session.query(Optometrist).get(employee_id)
+        employee = storage.get(Optometrist, employee_id)
     if not employee:
         abort(404)
     if not request.get_json():
         abort(400, description="Not a JSON")
 
     ignore = ['id', 'name', 'created_at', 'updated']
+
+    if 'password' in data:
+        password = data['password']
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+
     for key, value in request.get_json().items():
         if key not in ignore:
             setattr(employee, key, value)
@@ -70,9 +79,9 @@ def put_employee(employee_id):
 @cross_origin(origins=["127.0.0.1"])
 def delete_employee(employee_id):
     """ Deletes a recept or an optom who is without a case  """
-    employee = session.query(Receptionist).get(employee_id)
+    employee = storage.get(Receptionist, employee_id)
     if not employee:
-        employee = session.query(Optometrist).get(employee_id)
+        employee = storage.get(Optometrist, employee_id)
     if not employee:
         abort(404)
     if isinstance(employee, Optometrist) and hasattr(employee, 'cases'):

@@ -55,7 +55,7 @@ def check_inactivity(session_key, max_inactive_min=10):
 
 @login_manager.user_loader
 def load_user(user_id):
-    user = dbsession.query(Receptionist).get(user_id)
+    user = storage.get(Receptionist, user_id)
     if not user:
-        user = dbsession.query(Optometrist).get(user_id)
+        user = storage.get(Optometrist, user_id)
     return user
