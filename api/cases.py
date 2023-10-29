@@ -140,6 +140,13 @@ def save_case(case_id):
 
                 RecordClass = record_type_mapping[record_type]
 
+                record = RecordClass.query\
+                    .filter_by(case_id=case_id).first()
+
+                if record:
+                    record.delete()
+                    storage.save()
+
                 record = RecordClass(**record_data)
                 record.save()
                 ret.append(record.to_dict())
