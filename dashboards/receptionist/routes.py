@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" routes for recep """
+""" routes for receptionist """
 
 from flask import render_template
 from dashboards.receptionist import bp_recep
