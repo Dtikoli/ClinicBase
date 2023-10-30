@@ -1,6 +1,5 @@
-<div align="center">
-  <h1> <img src="dashboards/static/images/Logo.png" alt="Logo" width="80" height="80"> ClinicBase Web Application </h1>
-</div>
+<div align="center"><img src="dashboards/static/images/Logo.png" alt="Logo" width="80" height="80"> </div>
+# ClinicBase Web Application
 
 ## Table of Contents
 
@@ -74,9 +73,9 @@ For detailed instructions on how to use the application, navigate to the [Clinic
 
 ## Authors
 
-`Michael Mensah:` [GitHub](https://github.com/michaelmensa)
-`Daniel Frempong:` [GitHub](https://github.com/Gig2341)
-`David Tikoli:` [GitHub](https://github.com/Dtikoli)
+- `Michael Mensah:` [GitHub](https://github.com/michaelmensa)
+- `Daniel Frempong:` [GitHub](https://github.com/Gig2341)
+- `David Tikoli:` [GitHub](https://github.com/Dtikoli)
 
 ## License
 
