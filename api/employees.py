@@ -45,6 +45,7 @@ def post_employee():
     role = data.get('role').lower()
     if role == "receptionist":
         data.pop('role', None)
+        data.pop('license', None)
         employee = Receptionist(**data)
     elif role == "optometrist":
         if 'license' not in data:
