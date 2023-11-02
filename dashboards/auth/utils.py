@@ -53,18 +53,6 @@ def check_inactivity(session_key, max_inactive_min=10):
     return False
 
 
-def is_accessible_user(user, page):
-    """ logic to check if the user can access the given page """
-    if isinstance(user, Receptionist) and 'receptionist' in page:
-        return True
-    if isinstance(user, Optometrist) and 'optometrist' in page:
-        return True
-    if isinstance(user, User) and 'administrator' in page:
-        return True
-
-    return False
-
-
 @login_manager.user_loader
 def load_user(user_id):
     """ User loader """

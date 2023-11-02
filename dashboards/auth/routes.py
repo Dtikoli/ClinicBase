@@ -12,13 +12,14 @@ from models.receptionist import Receptionist
 
 @bp_auth.route('/login', methods=['GET', 'POST'], strict_slashes=False)
 def login():
-    if 'custom_user' in session:
-        return redirect(url_for('administrator.admin'))
+    """ handles session login """
     if current_user.is_authenticated:
         if isinstance(current_user, Receptionist):
             return redirect(url_for('receptionist.recep'))
-        if isinstance(current_user, Optometrist):
+        elif isinstance(current_user, Optometrist):
             return redirect(url_for('optometrist.optom'))
+        else:
+            return redirect(url_for('admin.admin'))
 
     if request.method == 'POST':
         email = request.form.get('email')
