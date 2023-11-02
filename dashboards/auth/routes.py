@@ -15,11 +15,11 @@ def login():
     """ handles session login """
     if current_user.is_authenticated:
         if isinstance(current_user, Receptionist):
-            return redirect(url_for('receptionist.recep'))
+            return redirect(url_for('recep.dashboard_recep'))
         elif isinstance(current_user, Optometrist):
-            return redirect(url_for('optometrist.optom'))
+            return redirect(url_for('optom.dashboard_optom'))
         else:
-            return redirect(url_for('admin.admin'))
+            return redirect(url_for('admin.dashboard_admin'))
 
     if request.method == 'POST':
         email = request.form.get('email')
@@ -30,15 +30,15 @@ def login():
         if isinstance(user, Receptionist):
             login_user(user, remember=True)
             flash('Login successful.', 'success')
-            return redirect(url_for('recep.recep'))
+            return redirect(url_for('recep.dashboard_recep'))
         elif isinstance(user, Optometrist):
             login_user(user, remember=True)
             flash('Login successful.', 'success')
-            return redirect(url_for('optom.optom'))
+            return redirect(url_for('optom.dashboard_optom'))
         elif user:
             user = session.get('custom_user')
             flash('Login successful.', 'success')
-            return redirect(url_for('admin.admin'))
+            return redirect(url_for('admin.dashboard_admin'))
         else:
             flash('Login failed. Please check your credentials.', 'danger')
 
