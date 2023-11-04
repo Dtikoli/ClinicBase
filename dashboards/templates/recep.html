@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/tab-links.css">
-    <!-- <link rel="stylesheet" href="styles/common-footer.css">     -->
-    <title>ClinicBase</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- css links go here-->
+    <link rel="stylesheet" href="/dashboards/static/styles/base.css">
+    <link rel="stylesheet" href="/dashboards/static/styles/main.css">
+    <link rel="stylesheet" href="/dashboards/static/styles/tab-links.css">
+    <title>ClinicBase - Receptionist</title>
 </head>
-
 <body>
+    <header>
+        <h1>ClinicBase</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#Login">Login</a></li>
+                <li><a href="#Contact">Contact</a></li>
+                <li><a href="#About">About</a></li>
+            </ul>
+        </nav>
+    </header>
     <div class="container">
         <header>
             <div>
@@ -125,12 +136,10 @@
                 <button>Send to Doctor</button>
             </section>
         </main>
-        <footer>
-            <!-- footer goes here-->
-            footer wai
-        </footer>
-        <script src="scripts/main.js"></script>
     </div>
+    <footer>
+        <p>Copyright &copy; <script>document.write(newDate().getFullYear())</script>clinicbase</p>
+    </footer>
+    <script src="/dashboards/static/scripts/main.js"></script>
 </body>
-
 </html>
