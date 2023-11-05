@@ -20,6 +20,13 @@ header{
     text-align: center;
 }
 
+header div {
+  position: relative;
+  display: inline-block;
+  left: 500px;
+  bottom: 10px;
+}
+
 header h1{
     border: #f4f4f4 solid 1px;
     border-radius: 36px;
@@ -48,6 +55,16 @@ nav{
   z-index: 1;
 }
 
+.logout {
+  display: inline-flex;
+  left: 75em;
+  z-index: 0;
+}
+
+.logout ul {
+  text-align: left;
+  padding-left: 0px;
+}
 nav ul{
   white-space: nowrap;
   max-width: 1200px;
