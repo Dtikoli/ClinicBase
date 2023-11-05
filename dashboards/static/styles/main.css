@@ -12,12 +12,12 @@ body {
     color: darkslategray;
 }
 
-/* styling the header */
-div header {
-    grid-column: span 3;
+/* styling the employee bar */
+.employee-bar {
+    grid-column: span 15;
     border: 1px solid #f4f4f4;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 0px 5px ;
     color: darkslategray;
 }
@@ -68,6 +68,6 @@ main {
 
 .save-patient {
     border: 1px solid black;
-    display: grid;
+    
     padding: 5px 5px;
 }
