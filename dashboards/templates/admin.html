@@ -139,6 +139,25 @@
             </section>
 
             <section class="save-patient">
+                <div>
+                    <h3>Search Employee Info</h3>
+                    <form method="POST" action="/search">
+                        <label for="search_query">Search Patient:</label><br>
+                        <input type="text" name="search_query" id="search_query" placeholder="Enter search query"
+                            required><br><br>
+                        <label for="search_object">Search Patient By:</label><br>
+                        <select name="search_object" id="search_object">
+                            <option value="fname">First Name</option>
+                            <option value="sname">SurName</option>
+                            <option value="date">Insurance</option>
+
+                        </select>
+                        <button type="submit">Search</button>
+                    </form>
+                    <h3>Search Results</h3>
+                    <p> search results goes here</p>
+                                        
+                </div>
                 <button>View Patient Records</button>
                 
             </section>
