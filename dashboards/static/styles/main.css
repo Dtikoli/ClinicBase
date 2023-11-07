@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
 body {
     margin: 0;
@@ -71,3 +72,78 @@ main {
     
     padding: 5px 5px;
 }
+=======
+/*
+body {
+    margin: 0;
+    border: 1px solid black;  
+}
+*/
+
+/* styling the container class*/
+.container {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    color: darkslategray;
+}
+
+/* styling the employee bar */
+.employee-bar {
+    grid-column: span 15;
+    border: 1px solid #f4f4f4;
+    display: flex;
+    justify-content: space-around;
+    padding: 0px 5px ;
+    color: darkslategray;
+}
+
+main {
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    border: 1px solid black;
+    height: 100%;
+    box-sizing: inherit;
+}
+
+.unattended, .attended, .patient-status, .patient-info, .patient-history {
+    border: 1px solid darkslategray;
+}
+
+.patient-info {
+    display: grid;
+}
+
+.patient-detail {
+    display: flex;
+    gap: 80px;
+}
+
+.blank-detail {
+    display: flex;
+    gap: 300px;
+}
+
+.patient-history {
+    display: flex;
+}
+
+.nav-content {
+    width: 100%;
+    height: 100%;
+}
+
+.tabs nav {
+    border: 1px solid black;
+}
+
+.forms {
+    border: 1px solid black;
+}
+
+.save-patient {
+    border: 1px solid black;
+    
+    padding: 5px 5px;
+}
+>>>>>>> landing_page

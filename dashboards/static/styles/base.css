@@ -43,11 +43,17 @@ header #api-status {
   border-radius: 50%;
   background-color: #cccccc;
 }
+<<<<<<< HEAD
 
 header #api-status.available {
   background-color: #FFFFFF;
 }
+=======
+>>>>>>> landing_page
 
+header #api-status.available {
+  background-color: #ff545f;
+}
 nav{
   background: #F4F4F4;
   padding: 10px;
